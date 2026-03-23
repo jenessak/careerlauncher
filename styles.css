@@ -357,11 +357,8 @@ textarea      { resize: vertical; min-height: 90px; }
 ══════════════════════════════════════════════ */
 .ats-list       { list-style: none; margin-bottom: 1.5rem; }
 .ats-list li    { display: flex; align-items: center; gap: .8rem; padding: .75rem 1rem; border-radius: 10px; margin-bottom: .45rem; background: white; border: 1.5px solid var(--border); font-size: .88rem; }
-.ats-check      { color: var(--sage); flex-shrink: 0; display: flex; align-items: center; }
-.ats-warn       { color: var(--rust); flex-shrink: 0; display: flex; align-items: center; }
-.inline-check   { color: var(--sage); display: inline-flex; align-items: center; vertical-align: middle; margin: 0 2px; }
-.inline-x       { color: var(--rust); display: inline-flex; align-items: center; vertical-align: middle; margin: 0 2px; }
-.ck-icon        { color: var(--sage); display: flex; align-items: center; flex-shrink: 0; }
+.ats-check      { color: var(--sage); font-size: 1.1rem; flex-shrink: 0; }
+.ats-warn       { color: var(--rust); font-size: 1.1rem; flex-shrink: 0; }
 
 /* ══════════════════════════════════════════════
    RESUME PREVIEW
@@ -648,3 +645,71 @@ textarea      { resize: vertical; min-height: 90px; }
 .proj-img-btn:hover { border-color: var(--gold); color: var(--gold); }
 .proj-img-btn.danger { color: var(--rust); }
 .proj-img-btn.danger:hover { border-color: var(--rust); background: var(--rust-light); }
+
+/* ══════════════════════════════════════════════
+   LANDING RECTANGLES
+══════════════════════════════════════════════ */
+.land-rect {
+  width: 100%;
+  max-width: 820px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.land-rect-label {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1.5px solid var(--gold-light);
+}
+
+.land-rect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: .55rem .8rem;
+}
+
+.land-rect-item {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-size: .88rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.land-rect-icon {
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Senior year badge */
+.senior-badge {
+  display: inline-block;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--gold-light);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  padding: 2px 6px;
+  vertical-align: middle;
+  margin-left: 3px;
+  white-space: nowrap;
+}
+
+/* Remove old concept card hover since cards are gone */
+.ccard { cursor: default; }
+.ccard:hover { transform: none; box-shadow: none; border-color: var(--border); }

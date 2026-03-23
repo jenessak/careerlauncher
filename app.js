@@ -27,7 +27,9 @@ const portfolioState = {
 };
 
 const clState = {
-  company: '', position: '', jobDesc: '',
+  senderName: '', senderAddress: '', senderCity: '', senderPhone: '', senderEmail: '',
+  employerName: '', employerTitle: '', company: '', employerAddress: '', employerCity: '',
+  position: '', jobDesc: '', salutation: '',
   opening: '', body1: '', body2: '', closing: '',
 };
 
@@ -370,7 +372,7 @@ const resumeSteps = [
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
           <div class="gcard-title">Action Verbs</div>
           <div class="gcard-body">Strong action verbs start your bullet points and show employers what you actually <em>did</em> — not just what you were responsible for. They make you sound confident and capable.</div>
-          <div class="gcard-example"><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> "Responsible for social media"<br><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> "Managed social media accounts, growing followers by 40%"</div>
+          <div class="gcard-example">❌ "Responsible for social media"<br>✅ "Managed social media accounts, growing followers by 40%"</div>
         </div>
         <div class="gcard">
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
@@ -388,7 +390,7 @@ const resumeSteps = [
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
           <div class="gcard-title">What is ATS?</div>
           <div class="gcard-body">Applicant Tracking Systems scan resumes <em>before</em> a human reads them. They filter out resumes with unusual formatting or missing keywords. Simple formatting is key.</div>
-          <div class="gcard-example"><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Simple font, standard headings, no images = passes ATS<br><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Tables, graphics, text boxes = often rejected</div>
+          <div class="gcard-example">✅ Simple font, standard headings, no images = passes ATS<br>❌ Tables, graphics, text boxes = often rejected</div>
         </div>
       </div>
       <div class="nav-buttons">
@@ -458,8 +460,8 @@ const resumeSteps = [
         <strong>💡 Pro Tip</strong>
         Use a professional email — firstname.lastname@gmail.com is ideal. Avoid nicknames like "coolkid99" or birth years.
       </div>
-      ${exampleBox(`<strong><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Good:</strong> Jane Smith · jane.smith@gmail.com · (555) 123-4567 · Austin, TX<br>
-        <strong><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid:</strong> jsmith99queen@hotmail.com (use a clean, professional address)<br>
+      ${exampleBox(`<strong>✅ Good:</strong> Jane Smith · jane.smith@gmail.com · (555) 123-4567 · Austin, TX<br>
+        <strong>❌ Avoid:</strong> jsmith99queen@hotmail.com (use a clean, professional address)<br>
         <em>Add sample student contact blocks here for reference.</em>`)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
@@ -577,19 +579,19 @@ const resumeSteps = [
         Most companies use Applicant Tracking Systems to automatically filter resumes before a human reads them. If your resume has fancy formatting or missing keywords, it may never reach a hiring manager.
       </div>
       <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> No images, icons, or graphics in your resume file</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Standard section headings (Experience, Education, Skills)</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Simple, readable font — avoid decorative styles</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Save as PDF or .docx format</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Keywords match the job description you're applying to</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> One page (for students and recent grads)</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> No tables, columns, or text boxes</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> No contact info in headers/footers (ATS often can't read those)</li>
+        <li><span class="ats-check">✓</span> No images, icons, or graphics in your resume file</li>
+        <li><span class="ats-check">✓</span> Standard section headings (Experience, Education, Skills)</li>
+        <li><span class="ats-check">✓</span> Simple, readable font — avoid decorative styles</li>
+        <li><span class="ats-check">✓</span> Save as PDF or .docx format</li>
+        <li><span class="ats-check">✓</span> Keywords match the job description you're applying to</li>
+        <li><span class="ats-check">✓</span> One page (for students and recent grads)</li>
+        <li><span class="ats-warn">✗</span> No tables, columns, or text boxes</li>
+        <li><span class="ats-warn">✗</span> No contact info in headers/footers (ATS often can't read those)</li>
       </ul>
       <div class="tip">
         <strong>🎯 Power keywords for ${fieldLabel}:</strong><br>
         <em>${(fieldData.atsKeywords || []).join(' · ')}</em><br><br>
-        <strong><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid these weak phrases for ${fieldLabel}:</strong><br>
+        <strong>❌ Avoid these weak phrases for ${fieldLabel}:</strong><br>
         <em style="color:var(--rust)">${avoid.join(' · ')}</em>
       </div>
       <div class="form-group">
@@ -697,13 +699,13 @@ const linkedinSteps = [
         <p class="step-desc">Your photo is the first thing people notice. A good photo increases profile views by up to 14x.</p>
       </div>
       <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Neutral or clean background (white, grey, or outdoor)</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Good, natural lighting — face the light source</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Professional or smart-casual clothing</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Only you in the photo — no group shots</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Face takes up 60–70% of the frame</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Friendly, confident expression</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> No heavy filters, sunglasses, or cropped group photos</li>
+        <li><span class="ats-check">✓</span> Neutral or clean background (white, grey, or outdoor)</li>
+        <li><span class="ats-check">✓</span> Good, natural lighting — face the light source</li>
+        <li><span class="ats-check">✓</span> Professional or smart-casual clothing</li>
+        <li><span class="ats-check">✓</span> Only you in the photo — no group shots</li>
+        <li><span class="ats-check">✓</span> Face takes up 60–70% of the frame</li>
+        <li><span class="ats-check">✓</span> Friendly, confident expression</li>
+        <li><span class="ats-warn">✗</span> No heavy filters, sunglasses, or cropped group photos</li>
       </ul>
       ${exampleBox(`<strong>Great options for students:</strong><br>
         • A headshot taken outside with natural light and a clean background<br>
@@ -792,11 +794,11 @@ const linkedinSteps = [
       </div>
       <div class="tip sage"><strong>🤝 Who to Connect With First</strong></div>
       <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Teachers and school counselors</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Past employers, even from part-time jobs</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Family friends who work in your field</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Internship and program coordinators</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> School alumni who are now working professionals</li>
+        <li><span class="ats-check">✓</span> Teachers and school counselors</li>
+        <li><span class="ats-check">✓</span> Past employers, even from part-time jobs</li>
+        <li><span class="ats-check">✓</span> Family friends who work in your field</li>
+        <li><span class="ats-check">✓</span> Internship and program coordinators</li>
+        <li><span class="ats-check">✓</span> School alumni who are now working professionals</li>
       </ul>
       <div class="tip">
         <strong>💬 Always Send a Message When You Connect</strong>
@@ -917,13 +919,13 @@ const portfolioSteps = [
         <p class="step-desc">How you organize your portfolio is as important as what's in it.</p>
       </div>
       <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Lead with your strongest project — first impressions matter</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Use consistent fonts and colors throughout</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Include a short description with every project</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Show the process, not just the final result</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Keep navigation simple — 3 clicks to anything</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid too many fonts, clutter, or long text blocks</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Don't include unfinished or very early-stage work</li>
+        <li><span class="ats-check">✓</span> Lead with your strongest project — first impressions matter</li>
+        <li><span class="ats-check">✓</span> Use consistent fonts and colors throughout</li>
+        <li><span class="ats-check">✓</span> Include a short description with every project</li>
+        <li><span class="ats-check">✓</span> Show the process, not just the final result</li>
+        <li><span class="ats-check">✓</span> Keep navigation simple — 3 clicks to anything</li>
+        <li><span class="ats-warn">✗</span> Avoid too many fonts, clutter, or long text blocks</li>
+        <li><span class="ats-warn">✗</span> Don't include unfinished or very early-stage work</li>
       </ul>
       ${exampleBox(`<strong>Suggested order:</strong><br>
         1. Your best / most impressive project (lead strong)<br>
@@ -952,6 +954,7 @@ const portfolioSteps = [
 ══════════════════════════════════════════════════════ */
 const clSteps = [
 
+  /* 0 — Intro */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
@@ -970,122 +973,197 @@ const clSteps = [
         </ul>
       </div>
       <div class="tip">
-        <strong>🚫 Avoid Generic Templates</strong>
-        "I am writing to express my interest in this position" — every hiring manager has read this 500 times. We'll help you write something real.
+        <strong>Format matters</strong>
+        A professional cover letter follows formal business letter format — your contact info, the date, the employer's address, a proper salutation, 3–4 focused paragraphs, and a formal closing. We'll build each piece step by step and produce a polished, ready-to-send letter.
       </div>
       ${navButtons('showHub()', 'nextStep()', 'Start Writing →')}`;
   },
 
+  /* 1 — Your Info */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 1 · Cover Letter</div>
-        <h1 class="step-title">Job Information</h1>
-        <p class="step-desc">Enter details about the specific job you're applying for. The more specific, the stronger your letter.</p>
+        <h1 class="step-title">Your Contact Information</h1>
+        <p class="step-desc">This appears at the top of your letter — your name, address, phone, and email.</p>
       </div>
-      <div class="tip">
-        <strong>🔑 Keyword Tip</strong>
-        Paste the job description below and look for key skills and phrases. Use those exact words in your cover letter — it helps with ATS and shows you read the posting.
+      <div class="form-group">
+        <label class="fl">Full Name</label>
+        <input type="text" value="${clState.senderName}" placeholder="Jane Smith"
+               oninput="clState.senderName = this.value">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="fl">Street Address</label>
+          <input type="text" value="${clState.senderAddress}" placeholder="123 Main Street"
+                 oninput="clState.senderAddress = this.value">
+        </div>
+        <div class="form-group">
+          <label class="fl">City, State Zip</label>
+          <input type="text" value="${clState.senderCity}" placeholder="Cedar City, UT 84720"
+                 oninput="clState.senderCity = this.value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="fl">Phone Number</label>
+          <input type="text" value="${clState.senderPhone}" placeholder="(435) 555-0100"
+                 oninput="clState.senderPhone = this.value">
+        </div>
+        <div class="form-group">
+          <label class="fl">Email Address</label>
+          <input type="text" value="${clState.senderEmail}" placeholder="jane.smith@email.com"
+                 oninput="clState.senderEmail = this.value">
+        </div>
+      </div>
+      <div class="tip sage">
+        <strong>Use a professional email</strong>
+        jane.smith@gmail.com ✓ &nbsp;&nbsp; jsmith99queen@hotmail.com ✗
+      </div>
+      ${navButtons('goBack()', 'nextStep()')}`;
+  },
+
+  /* 2 — Employer Info */
+  function (c) {
+    c.innerHTML = `
+      <div class="step-header">
+        <div class="step-eyebrow">Step 2 · Cover Letter</div>
+        <h1 class="step-title">Job & Employer Details</h1>
+        <p class="step-desc">This goes below the date. Try to find a real person's name — "Dear Hiring Manager" is a last resort.</p>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="fl">Company Name</label>
-          <input type="text" value="${clState.company}" placeholder="BrightCo, City Hospital…"
+          <input type="text" value="${clState.company}" placeholder="BrightCo"
                  oninput="clState.company = this.value">
         </div>
         <div class="form-group">
-          <label class="fl">Position Title</label>
-          <input type="text" value="${clState.position}" placeholder="Marketing Intern, Patient Care Aide…"
+          <label class="fl">Position You're Applying For</label>
+          <input type="text" value="${clState.position}" placeholder="Marketing Intern"
                  oninput="clState.position = this.value">
         </div>
       </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="fl">Hiring Manager / Recruiter Name</label>
+          <input type="text" value="${clState.employerName}" placeholder="Alex Johnson"
+                 oninput="clState.employerName = this.value">
+        </div>
+        <div class="form-group">
+          <label class="fl">Their Title (optional)</label>
+          <input type="text" value="${clState.employerTitle}" placeholder="Hiring Manager"
+                 oninput="clState.employerTitle = this.value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="fl">Company Street Address (optional)</label>
+          <input type="text" value="${clState.employerAddress}" placeholder="456 Business Ave"
+                 oninput="clState.employerAddress = this.value">
+        </div>
+        <div class="form-group">
+          <label class="fl">Company City, State Zip (optional)</label>
+          <input type="text" value="${clState.employerCity}" placeholder="Salt Lake City, UT 84101"
+                 oninput="clState.employerCity = this.value">
+        </div>
+      </div>
       <div class="form-group">
-        <label class="fl">Job Description / Key Requirements</label>
-        <textarea rows="5" oninput="clState.jobDesc = this.value"
+        <label class="fl">Salutation</label>
+        <input type="text" value="${clState.salutation}"
+               placeholder="Dear ${clState.employerName || 'Hiring Manager'}:"
+               oninput="clState.salutation = this.value">
+      </div>
+      <div class="form-group">
+        <label class="fl">Job Description / Key Requirements (optional — helps you use the right keywords)</label>
+        <textarea rows="4" oninput="clState.jobDesc = this.value"
                   placeholder="Paste the job description here…">${clState.jobDesc}</textarea>
       </div>
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
-  function (c) {
-    c.innerHTML = `
-      <div class="step-header">
-        <div class="step-eyebrow">Step 2 · Cover Letter</div>
-        <h1 class="step-title">Opening Paragraph</h1>
-        <p class="step-desc">Hook them immediately. State the role, show genuine excitement, and connect it to your field.</p>
-      </div>
-      <div class="tip">
-        <strong>📋 Opening Formula</strong>
-        State the position + Show excitement + Connect to your passion<br>
-        <em>Example: "I'm excited to apply for the Marketing Intern role at ${clState.company || '[Company]'} because I'm passionate about digital strategy and brand storytelling."</em>
-      </div>
-      <div class="form-group">
-        <label class="fl">Your Opening Paragraph</label>
-        <textarea rows="5" oninput="clState.opening = this.value"
-                  placeholder="I'm thrilled to apply for the ${clState.position || '[Position]'} at ${clState.company || '[Company]'} because…">${clState.opening}</textarea>
-      </div>
-      ${exampleBox(`<strong>Marketing:</strong> "I'm excited to apply for the Marketing Intern position at BrightCo because I'm passionate about branding and have been following your campaigns for the past year."<br><br>
-        <strong>Healthcare:</strong> "I'm honored to apply for the Patient Care Aide role at City Hospital because supporting patients is more than a job to me — it's a calling."<br>
-        <em>Add field-specific opening examples here.</em>`)}
-      ${navButtons('goBack()', 'nextStep()')}`;
-  },
-
+  /* 3 — Opening */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 3 · Cover Letter</div>
-        <h1 class="step-title">Body Paragraphs</h1>
-        <p class="step-desc">This is where you prove you're the right person. Use real examples, not vague claims.</p>
+        <h1 class="step-title">Opening Paragraph</h1>
+        <p class="step-desc">State where you found the role, show genuine enthusiasm, and connect to the company specifically.</p>
       </div>
       <div class="tip">
-        <strong>📋 Body Structure</strong>
-        Para 1: Relevant experience + one specific measurable example<br>
-        Para 2: Soft skills + how you'd contribute to their team
+        <strong>Opening Formula</strong>
+        How you found it + Genuine excitement + Why this company specifically<br>
+        <em>"I was thrilled to learn of your [Position] on [Source]. As someone passionate about [Field], I appreciate [specific thing about company] and am confident my [skills] will allow me to contribute."</em>
       </div>
       <div class="form-group">
-        <label class="fl">Paragraph 1 — Relevant Experience</label>
-        <textarea rows="4" oninput="clState.body1 = this.value"
-                  placeholder="Tell a short story. Include one measurable example — numbers, outcomes, or impact…">${clState.body1}</textarea>
+        <label class="fl">Opening Paragraph</label>
+        <textarea rows="6" oninput="clState.opening = this.value"
+                  placeholder="I was thrilled to learn of the ${clState.position || '[Position]'} opportunity at ${clState.company || '[Company]'}…">${clState.opening}</textarea>
       </div>
-      <div class="form-group">
-        <label class="fl">Paragraph 2 — Soft Skills & Strengths</label>
-        <textarea rows="4" oninput="clState.body2 = this.value"
-                  placeholder="Describe how you work — your communication style, teamwork, adaptability — and connect it to this role…">${clState.body2}</textarea>
-      </div>
-      ${exampleBox(`<strong>Experience paragraph:</strong> "During my junior year, I led a three-person team to design and execute a social media campaign for our school's fundraiser. We grew the event's Instagram following by 60% in three weeks and exceeded our fundraising goal by $1,200."<br><br>
-        <em>Add field-specific body paragraph examples here for each career area.</em>`)}
+      ${exampleBox(FIELD_EXAMPLES_COVER_OPENING[resumeState.field] || FIELD_EXAMPLES_COVER_OPENING.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
+  /* 4 — Body */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 4 · Cover Letter</div>
-        <h1 class="step-title">Closing & Final Check</h1>
-        <p class="step-desc">End with confidence. Reaffirm your interest, thank them, and invite next steps.</p>
+        <h1 class="step-title">Body Paragraphs</h1>
+        <p class="step-desc">Connect your experience to their needs. Expand on your resume — don't just repeat it.</p>
       </div>
       <div class="tip">
-        <strong>📋 Closing Formula</strong>
-        Reaffirm interest + Express appreciation + State availability
+        <strong>Body Structure</strong>
+        Para 1: Specific experience or project with a measurable outcome<br>
+        Para 2: Personal qualities, passion, and why you're motivated by this specific company
       </div>
       <div class="form-group">
-        <label class="fl">Your Closing Paragraph</label>
-        <textarea rows="4" oninput="clState.closing = this.value"
-                  placeholder="I would love the opportunity to contribute to your team and discuss how my skills align with your needs. Thank you for your time and consideration…">${clState.closing}</textarea>
+        <label class="fl">Paragraph 1 — Relevant Experience & Results</label>
+        <textarea rows="5" oninput="clState.body1 = this.value"
+                  placeholder="Tell a short story with one specific, measurable example — numbers, outcomes, or impact…">${clState.body1}</textarea>
       </div>
-      <div class="tip navy"><strong><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Final Checklist</strong></div>
-      <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> One page maximum</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Addressed to a specific person if possible</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> No generic phrases — every sentence is specific to this job</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Proofread at least twice</li>
-      </ul>
-      ${exampleBox(`<strong>Strong close:</strong> "I would welcome the opportunity to bring my design skills and enthusiasm to your team. Thank you for your time — I'd love to discuss how I can contribute. I'm available for an interview at your convenience."<br>
-        <em>Add field-specific closing examples including variations for internships and part-time roles here.</em>`)}
+      <div class="form-group">
+        <label class="fl">Paragraph 2 — Passion, Strengths & Fit</label>
+        <textarea rows="5" oninput="clState.body2 = this.value"
+                  placeholder="Convince them you have the personal qualities and motivation to succeed at this specific company…">${clState.body2}</textarea>
+      </div>
+      ${exampleBox(FIELD_EXAMPLES.coverLetterBody[resumeState.field] || FIELD_EXAMPLES.coverLetterBody.general)}
+      ${navButtons('goBack()', 'nextStep()')}`;
+  },
+
+  /* 5 — Closing */
+  function (c) {
+    const chk = '<span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>';
+    c.innerHTML = `
+      <div class="step-header">
+        <div class="step-eyebrow">Step 5 · Cover Letter</div>
+        <h1 class="step-title">Closing Paragraph</h1>
+        <p class="step-desc">Restate your interest, reference your resume, request an interview, and thank them.</p>
+      </div>
+      <div class="tip">
+        <strong>Closing Formula</strong>
+        Reference attached resume + Request an interview + Thank them for their time
+      </div>
+      <div class="form-group">
+        <label class="fl">Closing Paragraph</label>
+        <textarea rows="4" oninput="clState.closing = this.value"
+                  placeholder="Please find my resume attached, which details my qualifications. I would welcome the opportunity to discuss how my experience aligns with your needs. Thank you for your time and consideration…">${clState.closing}</textarea>
+      </div>
+      <div class="tip sage" style="margin-top:1rem">
+        <strong>Final Checklist</strong>
+        <ul class="ats-list" style="margin-top:.6rem">
+          <li>${chk} Addressed to a specific person if possible</li>
+          <li>${chk} Every paragraph connects to this specific job</li>
+          <li>${chk} No generic filler phrases</li>
+          <li>${chk} Resume is actually attached when you send it</li>
+          <li>${chk} One page when printed</li>
+          <li>${chk} Proofread at least twice</li>
+        </ul>
+      </div>
+      ${exampleBox(FIELD_EXAMPLES.coverLetterClosing[resumeState.field] || FIELD_EXAMPLES.coverLetterClosing.general)}
       <div class="celebrate">
         <span class="celebrate-icon">✉️</span>
         <h2>Cover letter complete!</h2>
-        <p>Copy your paragraphs into a clean document and pair it with your resume. You're ready to apply.</p>
+        <p>Download your finished letter — formatted as a professional business letter ready to send.</p>
         <div class="download-group">
           <button class="download-btn pdf"  onclick="downloadCoverLetterPDF()">📋 Download PDF</button>
           <button class="download-btn docx" onclick="downloadCoverLetterDOCX()">📄 Download .docx</button>
@@ -1097,7 +1175,6 @@ const clSteps = [
       </div>`;
   },
 ];
-
 /* ══════════════════════════════════════════════════════
    INTERVIEW PREP STEPS
 ══════════════════════════════════════════════════════ */
@@ -1208,15 +1285,15 @@ const interviewSteps = [
         <p class="step-desc">Research shows 55% of communication is nonverbal. How you show up matters as much as what you say.</p>
       </div>
       <ul class="ats-list">
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Make eye contact — look at the camera if it's virtual</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Speak clearly and at a steady pace — slow down when nervous</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Sit up straight — shows engagement and confidence</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Dress one level above the company's typical dress code</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Arrive 10–15 minutes early (or log in early for virtual)</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Bring 2 printed copies of your resume</li>
-        <li><span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Prepare 2–3 questions to ask them at the end</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Don't check your phone during the interview</li>
-        <li><span class="ats-warn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid filler words — "um," "like," "you know"</li>
+        <li><span class="ats-check">✓</span> Make eye contact — look at the camera if it's virtual</li>
+        <li><span class="ats-check">✓</span> Speak clearly and at a steady pace — slow down when nervous</li>
+        <li><span class="ats-check">✓</span> Sit up straight — shows engagement and confidence</li>
+        <li><span class="ats-check">✓</span> Dress one level above the company's typical dress code</li>
+        <li><span class="ats-check">✓</span> Arrive 10–15 minutes early (or log in early for virtual)</li>
+        <li><span class="ats-check">✓</span> Bring 2 printed copies of your resume</li>
+        <li><span class="ats-check">✓</span> Prepare 2–3 questions to ask them at the end</li>
+        <li><span class="ats-warn">✗</span> Don't check your phone during the interview</li>
+        <li><span class="ats-warn">✗</span> Avoid filler words — "um," "like," "you know"</li>
       </ul>
       <div class="tip">
         <strong>🙋 Questions to Ask Them</strong>
@@ -1460,11 +1537,11 @@ const collegeSteps = [
       <div class="tip teal"><strong>📋 The 150-Character Formula:</strong> Role / Title → What you did → Impact or Result</div>
       <div class="two-col-info" style="margin-bottom:1.2rem">
         <div style="background:var(--sage-light);border-radius:10px;padding:1rem">
-          <div style="font-weight:700;font-size:.84rem;color:var(--sage);margin-bottom:.4rem"><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Strong Entry</div>
+          <div style="font-weight:700;font-size:.84rem;color:var(--sage);margin-bottom:.4rem">✅ Strong Entry</div>
           <div style="font-size:.82rem;font-style:italic">"Co-captain, Varsity Soccer. Led 22-player team to region finals; organized 4 youth clinics serving 80+ kids."</div>
         </div>
         <div style="background:var(--rust-light);border-radius:10px;padding:1rem">
-          <div style="font-weight:700;font-size:.84rem;color:var(--rust);margin-bottom:.4rem"><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Weak Entry</div>
+          <div style="font-weight:700;font-size:.84rem;color:var(--rust);margin-bottom:.4rem">❌ Weak Entry</div>
           <div style="font-size:.82rem;font-style:italic">"I played soccer and was a leader on my team and we did community service sometimes."</div>
         </div>
       </div>
@@ -1564,16 +1641,16 @@ const collegeSteps = [
           <div class="tip" style="margin:0"><strong>You'll need:</strong> Your (and parents') Social Security numbers, federal tax returns, W-2s, bank statements, and investment records.</div>
         </div>
         <div class="info-card teal">
-          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Pre-Submission Checklist</h3>
+          <h3>✅ Pre-Submission Checklist</h3>
           <ul class="coll-checklist">
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Personal statement — revised &amp; proofread</strong><span>Read aloud. 2+ people have reviewed it.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Activities list complete</strong><span>Ordered by importance. Hours/week and weeks/year filled in.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Supplemental essays customized per school</strong><span>No generic "Why us?" answers.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Official transcripts requested</strong><span>Order early — registrar offices back up in fall.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>SAT/ACT scores sent from source</strong><span>Directly from College Board or ACT — not self-reported.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Recommendation writers have everything</strong><span>Resume, draft, deadlines — confirmed by email.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>FAFSA submitted</strong><span>As early as possible after Oct 1.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Counselor has reviewed your list</strong><span>They know you — use that resource.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Personal statement — revised &amp; proofread</strong><span>Read aloud. 2+ people have reviewed it.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Activities list complete</strong><span>Ordered by importance. Hours/week and weeks/year filled in.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Supplemental essays customized per school</strong><span>No generic "Why us?" answers.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Official transcripts requested</strong><span>Order early — registrar offices back up in fall.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>SAT/ACT scores sent from source</strong><span>Directly from College Board or ACT — not self-reported.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Recommendation writers have everything</strong><span>Resume, draft, deadlines — confirmed by email.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>FAFSA submitted</strong><span>As early as possible after Oct 1.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Counselor has reviewed your list</strong><span>They know you — use that resource.</span></div></li>
           </ul>
         </div>
       </div>
@@ -1676,14 +1753,14 @@ const sterlingSteps = [
         <div class="info-card gold">
           <h3>📁 Required Portfolio Sections</h3>
           <ul class="coll-checklist">
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Personal Statement / Narrative Essay</strong><span>1–2 pages on your passion, journey, and future goals in this category</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Academic Record</strong><span>Official transcript, GPA, AP/honors/dual enrollment courses</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Résumé</strong><span>Field-specific and current — use CareerLaunch Resume Builder!</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Evidence of Excellence</strong><span>Awards, competition results, certifications, recognitions in your category</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Community Service Log</strong><span>Dates, organization, hours, your specific role, supervisor contact</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Leadership Evidence</strong><span>Offices held, teams led, programs or clubs started</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Letters of Recommendation (2+)</strong><span>From teachers or community leaders who know your work deeply</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Work Samples</strong><span>Projects, writing, photos, recordings, certificates relevant to your field</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Personal Statement / Narrative Essay</strong><span>1–2 pages on your passion, journey, and future goals in this category</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Academic Record</strong><span>Official transcript, GPA, AP/honors/dual enrollment courses</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Résumé</strong><span>Field-specific and current — use CareerLaunch Resume Builder!</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Evidence of Excellence</strong><span>Awards, competition results, certifications, recognitions in your category</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Community Service Log</strong><span>Dates, organization, hours, your specific role, supervisor contact</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Leadership Evidence</strong><span>Offices held, teams led, programs or clubs started</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Letters of Recommendation (2+)</strong><span>From teachers or community leaders who know your work deeply</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Work Samples</strong><span>Projects, writing, photos, recordings, certificates relevant to your field</span></div></li>
           </ul>
         </div>
         <div class="info-card teal">
@@ -1826,28 +1903,28 @@ const sterlingSteps = [
       </div>
       <div class="two-col-info">
         <div class="info-card gold">
-          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Portfolio Binder Checklist</h3>
+          <h3>✅ Portfolio Binder Checklist</h3>
           <ul class="coll-checklist">
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Nominated by a teacher in your category</strong><span>Talk to your strongest teacher in that subject early — don't wait.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Binder is organized with tabbed dividers</strong><span>Professional appearance — clean layout, no loose papers.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Personal statement written and polished</strong><span>1–2 pages. Read aloud. Teacher in your category has reviewed it.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Academic record included</strong><span>Official transcript + GPA + relevant AP/honors courses.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Résumé current and field-specific</strong><span>Built with CareerLaunch Resume Builder and proofread.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Evidence of excellence included</strong><span>Awards, certifications, competition results in your category.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Community service log complete</strong><span>All entries have dates, org, hours, role, and supervisor contact.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Letters of recommendation (2+) secured</strong><span>From teachers or community leaders who know your work.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Work samples included</strong><span>Tangible evidence — photos, projects, certificates, recordings.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Nominated by a teacher in your category</strong><span>Talk to your strongest teacher in that subject early — don't wait.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Binder is organized with tabbed dividers</strong><span>Professional appearance — clean layout, no loose papers.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Personal statement written and polished</strong><span>1–2 pages. Read aloud. Teacher in your category has reviewed it.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Academic record included</strong><span>Official transcript + GPA + relevant AP/honors courses.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Résumé current and field-specific</strong><span>Built with CareerLaunch Resume Builder and proofread.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Evidence of excellence included</strong><span>Awards, certifications, competition results in your category.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Community service log complete</strong><span>All entries have dates, org, hours, role, and supervisor contact.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Letters of recommendation (2+) secured</strong><span>From teachers or community leaders who know your work.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Work samples included</strong><span>Tangible evidence — photos, projects, certificates, recordings.</span></div></li>
           </ul>
         </div>
         <div class="info-card teal">
-          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span> Interview Day Checklist</h3>
+          <h3>✅ Interview Day Checklist</h3>
           <ul class="coll-checklist">
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Mock interview done at least twice</strong><span>With a teacher, counselor, or parent. Record yourself once.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Know your portfolio cold</strong><span>Ready to speak to any page, project, or award in the binder.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Business professional outfit ready</strong><span>Pressed and ready the week before — don't leave this to the night before.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Prepared questions to ask judges</strong><span>Having thoughtful questions shows confidence and curiosity.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Exhibits carried in one trip</strong><span>All interview materials must be carried by you, no carts allowed.</span></div></li>
-            <li><span class="ck-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><div class="ck-text"><strong>Thank-you notes written</strong><span>Send within 24 hours after the interview — this is rare and memorable.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Mock interview done at least twice</strong><span>With a teacher, counselor, or parent. Record yourself once.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Know your portfolio cold</strong><span>Ready to speak to any page, project, or award in the binder.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Business professional outfit ready</strong><span>Pressed and ready the week before — don't leave this to the night before.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Prepared questions to ask judges</strong><span>Having thoughtful questions shows confidence and curiosity.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Exhibits carried in one trip</strong><span>All interview materials must be carried by you, no carts allowed.</span></div></li>
+            <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Thank-you notes written</strong><span>Send within 24 hours after the interview — this is rare and memorable.</span></div></li>
           </ul>
         </div>
       </div>
