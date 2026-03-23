@@ -138,7 +138,7 @@ function exampleBox(content) {
   return `<div class="example-section">
     <div class="example-section-header">
       <span>📌 Examples</span>
-      <span class="example-badge">Add yours later</span>
+      // <span class="example-badge">Add yours later</span>
     </div>
     <div class="example-placeholder">${content}</div>
   </div>`;
