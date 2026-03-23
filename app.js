@@ -54,6 +54,16 @@ const sterlingState = {
 ───────────────────────────────────────────────────── */
 let activeTool   = null;
 let currentStep  = 0;
+
+const TOOL_COLORS = {
+  resume:      { color: '#c8973a', light: '#f7e8ca', name: 'Resume Builder'       },
+  linkedin:    { color: '#243656', light: '#dce3ef', name: 'LinkedIn Builder'      },
+  portfolio:   { color: '#3a7a62', light: '#dff0e9', name: 'Portfolio Builder'     },
+  coverletter: { color: '#c45c3a', light: '#faeae5', name: 'Cover Letter'          },
+  interview:   { color: '#7c5cbf', light: '#ede8f7', name: 'Interview Prep'        },
+  college:     { color: '#1a7a8c', light: '#ddf1f5', name: 'College Applications'  },
+  sterling:    { color: '#8b4db8', light: '#f0e8f7', name: 'Sterling Scholar'      },
+};
 let steps        = [];
 
 function showLanding() {
@@ -77,6 +87,10 @@ function showApp() {
 function startTool(tool) {
   activeTool  = tool;
   currentStep = 0;
+  const tc = TOOL_COLORS[tool] || TOOL_COLORS.resume;
+  document.documentElement.style.setProperty('--tool-color', tc.color);
+  document.documentElement.style.setProperty('--tool-color-light', tc.light);
+  document.body.dataset.tool = tool;
   showApp();
 
   const toolMap = {
@@ -105,7 +119,10 @@ function renderStep() {
 function updateProgress() {
   const pct = Math.round(((currentStep + 1) / steps.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('stepLabel').textContent    = `Step ${currentStep + 1} of ${steps.length}`;
+  const tc = TOOL_COLORS[activeTool] || {};
+  document.getElementById('stepLabel').innerHTML =
+    `<span class="tool-name-sm">${tc.name || ''}</span>` +
+    `<span class="step-num-sm">Step ${currentStep + 1} of ${steps.length}</span>`;
   document.getElementById('backBtn').style.display    = currentStep === 0 ? 'none' : 'inline-block';
 }
 
@@ -135,7 +152,7 @@ function fieldGrid(selected, onSelectFn) {
 function exampleBox(content) {
   return `<div class="example-section">
     <div class="example-section-header">
-      <span>📌 Example</span>
+      <span><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Examples</span>
     </div>
     <div class="example-placeholder">${content}</div>
   </div>`;
@@ -369,7 +386,7 @@ const resumeSteps = [
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
           <div class="gcard-title">Action Verbs</div>
           <div class="gcard-body">Strong action verbs start your bullet points and show employers what you actually <em>did</em> — not just what you were responsible for. They make you sound confident and capable.</div>
-          <div class="gcard-example">❌ "Responsible for social media"<br>✅ "Managed social media accounts, growing followers by 40%"</div>
+          <div class="gcard-example"><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> "Responsible for social media"<br><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> "Managed social media accounts, growing followers by 40%"</div>
         </div>
         <div class="gcard">
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
@@ -387,7 +404,7 @@ const resumeSteps = [
           <div class="gcard-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
           <div class="gcard-title">What is ATS?</div>
           <div class="gcard-body">Applicant Tracking Systems scan resumes <em>before</em> a human reads them. They filter out resumes with unusual formatting or missing keywords. Simple formatting is key.</div>
-          <div class="gcard-example">✅ Simple font, standard headings, no images = passes ATS<br>❌ Tables, graphics, text boxes = often rejected</div>
+          <div class="gcard-example"><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Simple font, standard headings, no images = passes ATS<br><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Tables, graphics, text boxes = often rejected</div>
         </div>
       </div>
       <div class="nav-buttons">
@@ -405,9 +422,7 @@ const resumeSteps = [
         <p class="step-desc">This personalizes your action verbs, skill suggestions, and summary starter throughout the entire builder.</p>
       </div>
       ${fieldGrid(resumeState.field, 'selectResumeField')}
-      ${exampleBox(`<strong>Graphic Design student</strong> → gets verbs like "Designed," "Illustrated," "Branded"<br>
-        <strong>Healthcare student</strong> → gets verbs like "Assisted," "Monitored," "Documented"<br>
-        <em>Add your own field-specific examples here to show students what's possible in their area.</em>`)}
+
       <div class="nav-buttons">
         <button class="btn-back" onclick="goBack()">← Back</button>
         <button class="btn-next" onclick="if(resumeState.field){nextStep();}else{alert('Please choose a field first!')}">Continue →</button>
@@ -424,11 +439,11 @@ const resumeSteps = [
         <p class="step-desc">This is the first thing employers see. Keep it clean, accurate, and professional.</p>
       </div>
       <div class="tip rust">
-        <strong>🔒 Privacy Note</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Privacy Note</strong>
         Not comfortable putting in your real info right now? That's totally fine — use placeholder information while you practice. Just remember to replace it with your real details before submitting to an actual job!
       </div>
       <div class="tip">
-        <strong>🤖 ATS Tip</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="15" x2="8" y2="15"/><line x1="16" y1="15" x2="16" y2="15"/></svg></span> ATS Tip</strong>
         Avoid fancy fonts, text boxes, and images. ATS systems scan plain text — simplicity wins every time.
       </div>
       <div class="form-group">
@@ -454,12 +469,11 @@ const resumeSteps = [
                oninput="resumeState.contact.location = this.value">
       </div>
       <div class="tip sage">
-        <strong>💡 Pro Tip</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Pro Tip</strong>
         Use a professional email — firstname.lastname@gmail.com is ideal. Avoid nicknames like "coolkid99" or birth years.
       </div>
-      ${exampleBox(`<strong>✅ Good:</strong> Jane Smith · jane.smith@gmail.com · (555) 123-4567 · Austin, TX<br>
-        <strong>❌ Avoid:</strong> jsmith99queen@hotmail.com (use a clean, professional address)<br>
-        <em>Add sample student contact blocks here for reference.</em>`)}
+      ${exampleBox(`<strong><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Good:</strong> Jane Smith · jane.smith@gmail.com · (555) 123-4567 · Austin, TX<br>
+        <strong><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid:</strong> jsmith99queen@hotmail.com (use a clean, professional address)`)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -474,18 +488,16 @@ const resumeSteps = [
         <p class="step-desc">2–3 sentences that tell employers who you are and what you bring. We've started it for you — customize it to sound like you.</p>
       </div>
       <div class="tip">
-        <strong>✍️ Writing Formula</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Writing Formula</strong>
         Who you are → Your top skills → Your goal. Keep it under 60 words. Write in third person (no "I").
       </div>
       <div class="form-group">
         <label class="fl">Your Summary</label>
         <textarea id="sum-txt" rows="5" oninput="resumeState.summary = this.value">${resumeState.summary}</textarea>
       </div>
-      <div class="chips-label">💡 Click a verb to insert it into your summary</div>
+      <div class="chips-label"><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Click a verb to insert it into your summary</div>
       <div class="chips">${fd.verbs.map(v => `<div class="chip" onclick="insertIntoSummary('${v}')">${v}</div>`).join('')}</div>
-      ${exampleBox(`<strong>Design:</strong> "Detail-oriented graphic design student with experience in brand identity and digital illustration. Skilled in Adobe Creative Suite and collaborative project environments. Seeking an internship where creativity meets strategy."<br><br>
-        <strong>Healthcare:</strong> "Compassionate and organized healthcare student with hands-on experience in patient assistance and medical documentation. Known for strong communication skills and attention to detail. Seeking an entry-level clinical role."<br><br>
-        <em>Add field-specific summary examples for each career area here.</em>`)}
+      ${exampleBox(FIELD_EXAMPLES.resumeSummary[resumeState.field] || FIELD_EXAMPLES.resumeSummary.general)}
       ${navButtons('goBack()', "resumeState.summary=document.getElementById('sum-txt').value;nextStep()")}`;
   },
 
@@ -500,20 +512,15 @@ const resumeSteps = [
         <p class="step-desc">Jobs, volunteering, clubs, school projects — if you contributed, it counts. Add as many positions as you need.</p>
       </div>
       <div class="tip">
-        <strong>📋 Bullet Point Formula</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Bullet Point Formula</strong>
         <strong style="font-size:1rem;text-transform:none;letter-spacing:0;color:var(--ink)">Action Verb + What You Did + Result</strong><br>
         Example: <em>Organized a school fundraiser that raised $2,000 for the local food bank.</em>
       </div>
       <div id="exp-blocks"></div>
       <button class="btn-add" onclick="addExpBlock()">+ Add Another Position</button>
-      <div class="chips-label">🚀 Action Verbs for ${fieldLabel}</div>
+      <div class="chips-label"><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span> Action Verbs for ${fieldLabel}</div>
       <div class="chips">${fd.verbs.map(v => `<div class="chip">${v}</div>`).join('')}</div>
-      ${exampleBox(`<strong>Retail / Hospitality:</strong><br>
-        • Served 50+ customers daily, maintaining a 4.8-star satisfaction rating<br>
-        • Trained 3 new team members on POS systems and store procedures<br><br>
-        <strong>Volunteer / Community:</strong><br>
-        • Organized weekly food drives, collecting 200+ pounds of goods per month<br>
-        <em>Add field-specific bullet examples for each career area here.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.resumeExperience[resumeState.field] || FIELD_EXAMPLES.resumeExperience.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
     renderExpBlocks();
   },
@@ -532,19 +539,19 @@ const resumeSteps = [
         <p class="step-desc">Select the skills that genuinely describe you. Honesty matters — interviewers may ask you about anything on here.</p>
       </div>
       <div class="tip sage">
-        <strong>💡 Top soft skills for ${fieldLabel}:</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Top soft skills for ${fieldLabel}:</strong>
         ${soft.join(' · ')}
       </div>
       <div class="skill-cols">
         <div class="skill-col">
-          <h4>🛠️ Hard Skills — ${fieldLabel}</h4>
+          <h4><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Hard Skills — ${fieldLabel}</h4>
           ${hard.map(s => `<label class="scheck">
             <input type="checkbox" ${resumeState.hardSkills.includes(s) ? 'checked' : ''}
                    onchange="toggleResumeSkill('hard','${s}',this.checked)"> ${s}
           </label>`).join('')}
         </div>
         <div class="skill-col">
-          <h4>🧠 Soft Skills</h4>
+          <h4><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/></svg></span> Soft Skills</h4>
           ${allSoft.map(s => `<label class="scheck">
             <input type="checkbox" ${resumeState.softSkills.includes(s) ? 'checked' : ''}
                    onchange="toggleResumeSkill('soft','${s}',this.checked)"> ${s}
@@ -552,11 +559,11 @@ const resumeSteps = [
         </div>
       </div>
       <div class="tip">
-        <strong>🎯 ATS Keywords for ${fieldLabel}</strong><br>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> ATS Keywords for ${fieldLabel}</strong><br>
         Including these terms helps your resume pass automated filters:<br>
         <em>${(fieldData.atsKeywords || []).join(' · ')}</em>
       </div>
-      ${exampleBox(`<strong>${fieldLabel} bullet example:</strong><br>"${fieldData.bulletExample || ''}"<br><br><em>Add field-specific skill combination examples for each career area here.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.resumeSkills[resumeState.field] || FIELD_EXAMPLES.resumeSkills.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -572,7 +579,7 @@ const resumeSteps = [
         <p class="step-desc">Before you download, make sure your resume can pass the automated filters most companies use.</p>
       </div>
       <div class="tip navy">
-        <strong>🤖 What is ATS?</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="15" x2="8" y2="15"/><line x1="16" y1="15" x2="16" y2="15"/></svg></span> What is ATS?</strong>
         Most companies use Applicant Tracking Systems to automatically filter resumes before a human reads them. If your resume has fancy formatting or missing keywords, it may never reach a hiring manager.
       </div>
       <ul class="ats-list">
@@ -586,19 +593,16 @@ const resumeSteps = [
         <li><span class="ats-warn">✗</span> No contact info in headers/footers (ATS often can't read those)</li>
       </ul>
       <div class="tip">
-        <strong>🎯 Power keywords for ${fieldLabel}:</strong><br>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Power keywords for ${fieldLabel}:</strong><br>
         <em>${(fieldData.atsKeywords || []).join(' · ')}</em><br><br>
-        <strong>❌ Avoid these weak phrases for ${fieldLabel}:</strong><br>
+        <strong><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Avoid these weak phrases for ${fieldLabel}:</strong><br>
         <em style="color:var(--rust)">${avoid.join(' · ')}</em>
       </div>
       <div class="form-group">
-        <label class="fl">📋 Optional: Paste a job description to identify keywords to include</label>
+        <label class="fl"><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Optional: Paste a job description to identify keywords to include</label>
         <textarea rows="4" placeholder="Paste the job posting here and look for important words to match in your resume…"></textarea>
       </div>
-      ${exampleBox(`<strong>Keyword matching example:</strong><br>
-        Job posting says: "We need someone with strong communication skills and experience in customer service."<br>
-        Your resume should say: "Demonstrated communication skills through daily customer service in a retail environment."<br>
-        <em>Add before/after ATS examples here for different fields.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.resumeATS[resumeState.field] || FIELD_EXAMPLES.resumeATS.general)}
       ${navButtons('goBack()', 'nextStep()', 'Preview My Resume →')}`;
   },
 
@@ -613,7 +617,7 @@ const resumeSteps = [
         <p class="step-desc">Check every line carefully — typos, accuracy, and make sure your contact info is real if you're submitting this for a job.</p>
       </div>
       <div class="tip">
-        <strong>🔍 Before You Download</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Before You Download</strong>
         Read everything out loud. Fix any typos. Confirm all contact info is correct and professional.
       </div>
       <div class="resume-preview">
@@ -632,12 +636,12 @@ const resumeSteps = [
         ${allSkills.length ? `<div class="rp-sec"><div class="rp-sec-title">Skills</div><p>${allSkills.join(' · ')}</p></div>` : ''}
       </div>
       <div class="celebrate">
-        <span class="celebrate-icon">🎉</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
         <h2>You're resume-ready!</h2>
         <p>Download your resume in your preferred format and start applying. You built something real today.</p>
         <div class="download-group">
-          <button class="download-btn docx" onclick="downloadDOCX()">📄 Download .docx (Word)</button>
-          <button class="download-btn pdf"  onclick="downloadPDF()">📋 Download PDF</button>
+          <button class="download-btn docx" onclick="downloadDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
         </div>
       </div>
       <div class="nav-buttons">
@@ -660,7 +664,7 @@ const linkedinSteps = [
         <p class="step-desc">LinkedIn is the world's largest professional network — and employers actively use it to find candidates like you.</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">💼</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
         <h3>What LinkedIn Does for You</h3>
         <ul class="benefit-list">
           <li>Lets employers find <em>you</em> — even before you apply</li>
@@ -671,7 +675,7 @@ const linkedinSteps = [
         </ul>
       </div>
       <div class="tip navy">
-        <strong>🎯 Key Insight</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Key Insight</strong>
         Recruiters use LinkedIn's search to find candidates by skills and keywords. A strong profile means opportunities can come to <em>you</em>.
       </div>
       ${navButtons('showHub()', 'nextStep()', 'Build My Profile →')}`;
@@ -707,8 +711,7 @@ const linkedinSteps = [
       ${exampleBox(`<strong>Great options for students:</strong><br>
         • A headshot taken outside with natural light and a clean background<br>
         • A classroom or school setting with a neutral background<br>
-        • A professional photo from a school event or award ceremony<br>
-        <em>Add side-by-side good vs. not-good photo examples here.</em>`)}
+        • A professional photo from a school event or award ceremony`)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -720,7 +723,7 @@ const linkedinSteps = [
         <p class="step-desc">Your headline appears under your name everywhere on LinkedIn. Make it specific and searchable.</p>
       </div>
       <div class="tip">
-        <strong>📐 Headline Formula</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Headline Formula</strong>
         <strong style="font-size:1rem;text-transform:none;letter-spacing:0;color:var(--ink)">Who You Are | Key Skill | Career Goal</strong><br>
         Keep it under 120 characters. Use keywords employers search for.
       </div>
@@ -745,10 +748,7 @@ const linkedinSteps = [
         <div class="headline-preview-label">Your LinkedIn Headline Preview</div>
         <div class="headline-preview-text" id="headlinePreview">${buildHeadline()}</div>
       </div>
-      ${exampleBox(`<strong>Design:</strong> Aspiring Graphic Designer | Adobe Illustrator & Brand Identity | Seeking Creative Internship<br>
-        <strong>Healthcare:</strong> Future Nurse | Compassionate & Detail-Oriented | Open to Patient Care Experience<br>
-        <strong>Business:</strong> Marketing Student | Social Media Strategy & Analytics | Seeking Summer Internship<br>
-        <em>Add field-specific headline examples here for each career area.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.linkedinHeadline[linkedinState.field] || FIELD_EXAMPLES.linkedinHeadline.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -760,7 +760,7 @@ const linkedinSteps = [
         <p class="step-desc">Your "About" is your story. Write in first person — warm, confident, and honest.</p>
       </div>
       <div class="tip">
-        <strong>✍️ Three-Paragraph Structure</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Three-Paragraph Structure</strong>
         <strong style="text-transform:none;letter-spacing:0;font-size:.95rem;color:var(--ink)">Para 1:</strong> Who you are + your passion<br>
         <strong style="text-transform:none;letter-spacing:0;font-size:.95rem;color:var(--ink)">Para 2:</strong> What you're good at + relevant experience<br>
         <strong style="text-transform:none;letter-spacing:0;font-size:.95rem;color:var(--ink)">Para 3:</strong> What you're looking for + how to reach you
@@ -771,14 +771,10 @@ const linkedinSteps = [
                   placeholder="I am a passionate design student at [School] with a love for visual storytelling…">${linkedinState.about}</textarea>
       </div>
       <div class="tip sage">
-        <strong>💡 Tips</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Tips</strong>
         Write in first person ("I am…" not "Jane is…"). Mention at least one soft skill. End with a call to action.
       </div>
-      ${exampleBox(`<strong>Design student example:</strong><br>
-        "I'm a graphic design student at [School] with a passion for brand identity and digital illustration. I believe great design tells a story — and I love being part of that process.<br><br>
-        Over the past two years, I've developed skills in Adobe Creative Suite, typography, and visual communication through coursework and freelance projects. I thrive in collaborative environments.<br><br>
-        I'm seeking an internship where I can grow and contribute. Feel free to connect — I'd love to chat!"<br>
-        <em>Add field-specific About examples here for each career area.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.linkedinAbout[linkedinState.field] || FIELD_EXAMPLES.linkedinAbout.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -789,7 +785,7 @@ const linkedinSteps = [
         <h1 class="step-title">Networking Strategy</h1>
         <p class="step-desc">LinkedIn is most powerful when you actually connect with people. Here's how to do it without feeling awkward.</p>
       </div>
-      <div class="tip sage"><strong>🤝 Who to Connect With First</strong></div>
+      <div class="tip sage"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span> Who to Connect With First</strong></div>
       <ul class="ats-list">
         <li><span class="ats-check">✓</span> Teachers and school counselors</li>
         <li><span class="ats-check">✓</span> Past employers, even from part-time jobs</li>
@@ -798,19 +794,17 @@ const linkedinSteps = [
         <li><span class="ats-check">✓</span> School alumni who are now working professionals</li>
       </ul>
       <div class="tip">
-        <strong>💬 Always Send a Message When You Connect</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Always Send a Message When You Connect</strong>
         A short personal note is the difference between being remembered and being ignored.
       </div>
-      ${exampleBox(`<strong>To a teacher:</strong> "Hi Ms. Johnson! I'm building my LinkedIn profile and would love to connect. Thank you for everything you've taught me in Marketing this year."<br><br>
-        <strong>To a professional:</strong> "Hi [Name], I'm a high school student exploring graphic design and admired the branding work on your profile. I'd love to connect and learn from your journey."<br>
-        <em>Add more field-specific connection message templates here.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.linkedinNetworking[linkedinState.field] || FIELD_EXAMPLES.linkedinNetworking.general)}
       <div class="celebrate">
-        <span class="celebrate-icon">🎉</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
         <h2>Your LinkedIn is ready!</h2>
         <p>Take these prompts and build your real profile at linkedin.com. The sooner you start, the sooner opportunities find you.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadLinkedinPDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadLinkedinDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadLinkedinPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadLinkedinDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
           <a class="download-btn link" href="https://www.linkedin.com/profile/edit" target="_blank">Open LinkedIn →</a>
         </div>
       </div>
@@ -834,7 +828,7 @@ const portfolioSteps = [
         <p class="step-desc">A portfolio is proof. Anyone can say they're creative — your portfolio shows it.</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">📁</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg></span>
         <h3>What a Strong Portfolio Does</h3>
         <ul class="benefit-list">
           <li>Shows employers real examples of what you can do</li>
@@ -889,16 +883,16 @@ const portfolioSteps = [
         <p class="step-desc">Choose 3–6 projects that best show your skill, creativity, and growth. Quality over quantity every time.</p>
       </div>
       <div class="tip">
-        <strong>🎯 Best project types for ${fieldLabel}:</strong><br>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Best project types for ${fieldLabel}:</strong><br>
         ${projTypes.map(p => `<span style="display:inline-block;background:var(--gold-light);border-radius:100px;padding:2px 10px;font-size:.8rem;margin:2px 2px;">${p}</span>`).join('')}
       </div>
       <div class="tip sage">
-        <strong>💡 What to highlight:</strong> ${guide.highlight}<br><br>
-        <strong>📋 Best format for ${fieldLabel}:</strong> ${guide.format}
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> What to highlight:</strong> ${guide.highlight}<br><br>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Best format for ${fieldLabel}:</strong> ${guide.format}
       </div>
       ${portfolioState.field === 'design' ? `
       <div class="tip" style="background:#f5edfb;border-left-color:#8b4db8">
-        <strong style="color:#8b4db8">🎨 You're a Designer — Your Portfolio IS Your Resume</strong>
+        <strong style="color:#8b4db8"><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> You're a Designer — Your Portfolio IS Your Resume</strong>
         Employers in design barely read your resume. They click your portfolio link first. Every project should show your <em>process</em>, not just the final file. Include the rough sketches, the first bad version, the client feedback, and the final result. That journey is what separates a student with Illustrator skills from a designer who actually thinks visually. Use Behance or a personal site — a PDF alone won't cut it in this field.
       </div>` : ''}
       <div id="portfolio-projects"></div>
@@ -928,15 +922,14 @@ const portfolioSteps = [
         1. Your best / most impressive project (lead strong)<br>
         2. A project that shows a different skill or medium<br>
         3. A collaborative or team-based project<br>
-        4. A project that shows growth or problem-solving<br>
-        <em>Add before/after portfolio layout examples and annotated screenshots here.</em>`)}
+        4. A project that shows growth or problem-solving`)}
       <div class="celebrate">
-        <span class="celebrate-icon">📁</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg></span>
         <h2>Portfolio framework complete!</h2>
         <p>Use your project descriptions to build your real portfolio in your chosen format.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadPortfolioPDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadPortfolioDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadPortfolioPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadPortfolioDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
         </div>
       </div>
       <div class="nav-buttons">
@@ -959,7 +952,7 @@ const clSteps = [
         <p class="step-desc">A great cover letter answers three questions: Why you? Why this job? Why now?</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">✉️</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
         <h3>What Makes a Cover Letter Powerful</h3>
         <ul class="benefit-list">
           <li>Shows personality and communication skills your resume can't</li>
@@ -969,7 +962,7 @@ const clSteps = [
         </ul>
       </div>
       <div class="tip">
-        <strong>🚫 Avoid Generic Templates</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span> Avoid Generic Templates</strong>
         "I am writing to express my interest in this position" — every hiring manager has read this 500 times. We'll help you write something real.
       </div>
       ${navButtons('showHub()', 'nextStep()', 'Start Writing →')}`;
@@ -983,7 +976,7 @@ const clSteps = [
         <p class="step-desc">Enter details about the specific job you're applying for. The more specific, the stronger your letter.</p>
       </div>
       <div class="tip">
-        <strong>🔑 Keyword Tip</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg></span> Keyword Tip</strong>
         Paste the job description below and look for key skills and phrases. Use those exact words in your cover letter — it helps with ATS and shows you read the posting.
       </div>
       <div class="form-row">
@@ -1014,7 +1007,7 @@ const clSteps = [
         <p class="step-desc">Hook them immediately. State the role, show genuine excitement, and connect it to your field.</p>
       </div>
       <div class="tip">
-        <strong>📋 Opening Formula</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Opening Formula</strong>
         State the position + Show excitement + Connect to your passion<br>
         <em>Example: "I'm excited to apply for the Marketing Intern role at ${clState.company || '[Company]'} because I'm passionate about digital strategy and brand storytelling."</em>
       </div>
@@ -1023,9 +1016,7 @@ const clSteps = [
         <textarea rows="5" oninput="clState.opening = this.value"
                   placeholder="I'm thrilled to apply for the ${clState.position || '[Position]'} at ${clState.company || '[Company]'} because…">${clState.opening}</textarea>
       </div>
-      ${exampleBox(`<strong>Marketing:</strong> "I'm excited to apply for the Marketing Intern position at BrightCo because I'm passionate about branding and have been following your campaigns for the past year."<br><br>
-        <strong>Healthcare:</strong> "I'm honored to apply for the Patient Care Aide role at City Hospital because supporting patients is more than a job to me — it's a calling."<br>
-        <em>Add field-specific opening examples here.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES_COVER_OPENING[resumeState.field] || FIELD_EXAMPLES_COVER_OPENING.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -1037,7 +1028,7 @@ const clSteps = [
         <p class="step-desc">This is where you prove you're the right person. Use real examples, not vague claims.</p>
       </div>
       <div class="tip">
-        <strong>📋 Body Structure</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Body Structure</strong>
         Para 1: Relevant experience + one specific measurable example<br>
         Para 2: Soft skills + how you'd contribute to their team
       </div>
@@ -1051,8 +1042,7 @@ const clSteps = [
         <textarea rows="4" oninput="clState.body2 = this.value"
                   placeholder="Describe how you work — your communication style, teamwork, adaptability — and connect it to this role…">${clState.body2}</textarea>
       </div>
-      ${exampleBox(`<strong>Experience paragraph:</strong> "During my junior year, I led a three-person team to design and execute a social media campaign for our school's fundraiser. We grew the event's Instagram following by 60% in three weeks and exceeded our fundraising goal by $1,200."<br><br>
-        <em>Add field-specific body paragraph examples here for each career area.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.coverLetterBody[resumeState.field] || FIELD_EXAMPLES.coverLetterBody.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -1064,7 +1054,7 @@ const clSteps = [
         <p class="step-desc">End with confidence. Reaffirm your interest, thank them, and invite next steps.</p>
       </div>
       <div class="tip">
-        <strong>📋 Closing Formula</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Closing Formula</strong>
         Reaffirm interest + Express appreciation + State availability
       </div>
       <div class="form-group">
@@ -1072,22 +1062,21 @@ const clSteps = [
         <textarea rows="4" oninput="clState.closing = this.value"
                   placeholder="I would love the opportunity to contribute to your team and discuss how my skills align with your needs. Thank you for your time and consideration…">${clState.closing}</textarea>
       </div>
-      <div class="tip navy"><strong>✅ Final Checklist</strong></div>
+      <div class="tip navy"><strong><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Final Checklist</strong></div>
       <ul class="ats-list">
         <li><span class="ats-check">✓</span> One page maximum</li>
         <li><span class="ats-check">✓</span> Addressed to a specific person if possible</li>
         <li><span class="ats-check">✓</span> No generic phrases — every sentence is specific to this job</li>
         <li><span class="ats-check">✓</span> Proofread at least twice</li>
       </ul>
-      ${exampleBox(`<strong>Strong close:</strong> "I would welcome the opportunity to bring my design skills and enthusiasm to your team. Thank you for your time — I'd love to discuss how I can contribute. I'm available for an interview at your convenience."<br>
-        <em>Add field-specific closing examples including variations for internships and part-time roles here.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.coverLetterClosing[resumeState.field] || FIELD_EXAMPLES.coverLetterClosing.general)}
       <div class="celebrate">
-        <span class="celebrate-icon">✉️</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
         <h2>Cover letter complete!</h2>
         <p>Copy your paragraphs into a clean document and pair it with your resume. You're ready to apply.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadCoverLetterPDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadCoverLetterDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadCoverLetterPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadCoverLetterDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
         </div>
       </div>
       <div class="nav-buttons">
@@ -1110,7 +1099,7 @@ const interviewSteps = [
         <p class="step-desc">Most students think interviews test what you know. They actually test how you communicate, think, and show up.</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">🗣️</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
         <h3>What Employers Are Really Evaluating</h3>
         <ul class="benefit-list">
           <li>Communication — can you explain yourself clearly?</li>
@@ -1121,7 +1110,7 @@ const interviewSteps = [
         </ul>
       </div>
       <div class="tip sage">
-        <strong>💡 Remember This</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Remember This</strong>
         They are not looking for perfection. They're looking for a real person who communicates honestly, reflects on their experience, and shows genuine interest. You can do that.
       </div>
       ${navButtons('showHub()', 'nextStep()', 'Start Preparing →')}`;
@@ -1152,14 +1141,14 @@ const interviewSteps = [
         <div class="star-card"><div class="star-letter">R</div><div class="star-word">Result</div><div class="star-def">What happened? What did you learn? Any numbers?</div></div>
       </div>
       <div class="tip">
-        <strong>📋 STAR Example</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> STAR Example</strong>
         Question: "Tell me about a time you solved a problem."<br>
         <strong>S:</strong> "Our school fundraiser venue cancelled two days before the event."<br>
         <strong>T:</strong> "As event coordinator, I needed to find a new location immediately."<br>
         <strong>A:</strong> "I contacted 8 local businesses within 4 hours and negotiated a free community hall."<br>
         <strong>R:</strong> "The event went ahead as planned and raised $3,200 — our best year yet."
       </div>
-      ${exampleBox(`<em>Add field-specific STAR example answers here for each career area. Include examples from school projects, part-time work, volunteering, and extracurriculars.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.interviewSTAR[interviewState.field] || FIELD_EXAMPLES.interviewSTAR.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -1178,7 +1167,7 @@ const interviewSteps = [
         <h1 class="step-title">Practice Questions</h1>
         <p class="step-desc">Think for 30 seconds, then write your answer. Honest answers are the best answers.</p>
       </div>
-      <div class="tip sage"><strong>💡 Common Questions (All Fields)</strong></div>
+      <div class="tip sage"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Common Questions (All Fields)</strong></div>
       ${common.map((q, i) => `
         <div class="form-group">
           <label class="fl">${q.q}</label>
@@ -1187,7 +1176,7 @@ const interviewSteps = [
                     oninput="interviewState.answers['q${i}'] = this.value"
                     placeholder="Write your answer here — be specific and use real examples…">${interviewState.answers['q' + i] || ''}</textarea>
         </div>`).join('')}
-      <div class="tip" style="margin-top:1.5rem"><strong>🎯 Field-Specific Questions · ${FIELDS.find(f => f.id === interviewState.field)?.label || 'Your Field'}</strong></div>
+      <div class="tip" style="margin-top:1.5rem"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Field-Specific Questions · ${FIELDS.find(f => f.id === interviewState.field)?.label || 'Your Field'}</strong></div>
       ${specific.map((q, i) => `
         <div class="form-group">
           <label class="fl">${q}</label>
@@ -1195,7 +1184,7 @@ const interviewSteps = [
                     oninput="interviewState.answers['fq${i}'] = this.value"
                     placeholder="Your answer…">${interviewState.answers['fq' + i] || ''}</textarea>
         </div>`).join('')}
-      ${exampleBox(`<em>Add field-specific strong answer examples for each question type here. Include both strong and weak examples to help students see the difference.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES.interviewAnswers[interviewState.field] || FIELD_EXAMPLES.interviewAnswers.general)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -1218,12 +1207,12 @@ const interviewSteps = [
         <li><span class="ats-warn">✗</span> Avoid filler words — "um," "like," "you know"</li>
       </ul>
       <div class="tip">
-        <strong>🙋 Questions to Ask Them</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span> Questions to Ask Them</strong>
         "What does a successful first 90 days look like in this role?"<br>
         "What do you enjoy most about working here?"<br>
         "What opportunities are there to grow and learn?"
       </div>
-      ${exampleBox(`<em>Add a short video example or annotated screenshots showing confident body language, appropriate dress for different fields, and virtual interview setup tips here.</em>`)}
+      
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
@@ -1235,21 +1224,21 @@ const interviewSteps = [
         <p class="step-desc">Most students skip this step. The ones who don't stand out every time.</p>
       </div>
       <div class="tip sage">
-        <strong>📬 Send a Thank You Within 24 Hours</strong>
+        <strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> Send a Thank You Within 24 Hours</strong>
         A short, sincere thank you email shows professionalism and keeps you top of mind. Most candidates don't send one — which means you instantly stand out if you do.
       </div>
       <div class="form-group">
         <label class="fl">Thank You Email — Customize This Template</label>
         <textarea rows="9" placeholder="Subject: Thank You — [Position Title] Interview&#10;&#10;Dear [Name],&#10;&#10;Thank you so much for the opportunity to interview for the [Position] role at [Company]. I really enjoyed learning about [something specific they mentioned] and left the conversation even more excited about the possibility of joining your team.&#10;&#10;[Add one sentence connecting your skills to something they mentioned.]&#10;&#10;I look forward to hearing from you. Please don't hesitate to reach out if you need any additional information.&#10;&#10;Thank you again,&#10;[Your Name]"></textarea>
       </div>
-      ${exampleBox(`<em>Add field-specific thank you email templates here. Include examples for retail, healthcare, trades, and remote/virtual interviews.</em>`)}
+            ${exampleBox(FIELD_EXAMPLES_INTERVIEW_THANKYOU[interviewState.field] || FIELD_EXAMPLES_INTERVIEW_THANKYOU.general)}
       <div class="celebrate">
-        <span class="celebrate-icon">🌟</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
         <h2>You're interview-ready!</h2>
         <p>Practice your answers out loud — say them to a mirror, a friend, or record yourself. The more you practice, the more natural it feels.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadInterviewPDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadInterviewDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadInterviewPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadInterviewDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
         </div>
       </div>
       <div class="nav-buttons">
@@ -1325,7 +1314,7 @@ const collegeSteps = [
         <p class="step-desc">Applying to college is one of the most important processes of your high school career. This tool guides you through every piece — from your personal statement to your final checklist.</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">🎓</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg></span>
         <h3>What Goes Into a College Application?</h3>
         <ul class="benefit-list">
           <li><strong>GPA & Transcript</strong> — your academic record, sent directly from your school</li>
@@ -1336,7 +1325,7 @@ const collegeSteps = [
           <li><strong>Supplemental Essays</strong> — school-specific short answers ("Why us?")</li>
           <li><strong>FAFSA</strong> — financial aid application, opens Oct 1 of senior year</li>
         </ul>
-        <div class="tip teal" style="margin-bottom:0"><strong>💡 Key insight:</strong> Colleges are not just evaluating your achievements — they're trying to understand who you are, how you think, and what you'll contribute to their campus community.</div>
+        <div class="tip teal" style="margin-bottom:0"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Key insight:</strong> Colleges are not just evaluating your achievements — they're trying to understand who you are, how you think, and what you'll contribute to their campus community.</div>
       </div>
       ${exampleBox('<em>Add a local success story here — a past student from your program, what schools they applied to, what made their application strong, and any advice they\'d share. Real examples inspire action.</em>')}
       ${navButtons('showHub()', 'nextStep()')}`;
@@ -1416,7 +1405,7 @@ const collegeSteps = [
       <div class="essay-formula"><strong>Common App Prompts — pick the one that fits your best story:</strong><p>Background or identity · Challenge overcome · Belief you questioned · Problem you solved · Personal growth moment · Captivating topic of your choice</p></div>
       <div class="two-col-info">
         <div class="info-card navy">
-          <h3>✍️ What Makes a Strong Essay</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> What Makes a Strong Essay</h3>
           <ul class="benefit-list">
             <li><strong>650 words max</strong> — every word should earn its place</li>
             <li><strong>Start with a specific scene</strong> — where were you, what were you doing, what happened?</li>
@@ -1427,7 +1416,7 @@ const collegeSteps = [
           </ul>
         </div>
         <div class="info-card teal">
-          <h3>💡 What Admissions Officers Say</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> What Admissions Officers Say</h3>
           <ul class="benefit-list">
             <li>The best essays are often about <strong>small, specific moments</strong> — not mission trips or championships</li>
             <li>They want to hear your <strong>actual voice</strong>, not what you think they want to hear</li>
@@ -1456,14 +1445,14 @@ const collegeSteps = [
         <h1 class="step-title">Activities List</h1>
         <p class="step-desc">Up to 10 activities, 150 characters each. This is your chance to show colleges who you are outside the classroom — and what you've actually done with your time.</p>
       </div>
-      <div class="tip teal"><strong>📋 The 150-Character Formula:</strong> Role / Title → What you did → Impact or Result</div>
+      <div class="tip teal"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> The 150-Character Formula:</strong> Role / Title → What you did → Impact or Result</div>
       <div class="two-col-info" style="margin-bottom:1.2rem">
         <div style="background:var(--sage-light);border-radius:10px;padding:1rem">
-          <div style="font-weight:700;font-size:.84rem;color:var(--sage);margin-bottom:.4rem">✅ Strong Entry</div>
+          <div style="font-weight:700;font-size:.84rem;color:var(--sage);margin-bottom:.4rem"><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Strong Entry</div>
           <div style="font-size:.82rem;font-style:italic">"Co-captain, Varsity Soccer. Led 22-player team to region finals; organized 4 youth clinics serving 80+ kids."</div>
         </div>
         <div style="background:var(--rust-light);border-radius:10px;padding:1rem">
-          <div style="font-weight:700;font-size:.84rem;color:var(--rust);margin-bottom:.4rem">❌ Weak Entry</div>
+          <div style="font-weight:700;font-size:.84rem;color:var(--rust);margin-bottom:.4rem"><span class="inline-x"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Weak Entry</div>
           <div style="font-size:.82rem;font-style:italic">"I played soccer and was a leader on my team and we did community service sometimes."</div>
         </div>
       </div>
@@ -1517,7 +1506,7 @@ const collegeSteps = [
       </div>
       <div class="two-col-info">
         <div class="info-card navy">
-          <h3>🤝 Letters of Recommendation</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span> Letters of Recommendation</h3>
           <div class="step-flow">
             <div class="sf"><div class="sf-num">1</div><div><h4>Who to Ask</h4><p>2 core-subject teachers who know your work well. Counselor required by most schools. Optional: coach, employer, or mentor for character perspective.</p></div></div>
             <div class="sf"><div class="sf-num">2</div><div><h4>When to Ask</h4><p>By end of junior year or early summer. Give writers 4–6 weeks minimum. Ask in person first, then confirm by email with details.</p></div></div>
@@ -1526,7 +1515,7 @@ const collegeSteps = [
           </div>
         </div>
         <div class="info-card teal">
-          <h3>✍️ Supplemental Essays</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Supplemental Essays</h3>
           <ul class="benefit-list">
             <li>Most schools ask <strong>"Why us?"</strong> — answer with specific programs, professors, or courses, not vibes</li>
             <li><strong>Research every school</strong> you list — generic "Why us?" essays are easy to spot and hurt your chances</li>
@@ -1551,7 +1540,7 @@ const collegeSteps = [
       </div>
       <div class="two-col-info">
         <div class="info-card navy">
-          <h3>💰 FAFSA — Don't Skip This</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span> FAFSA — Don't Skip This</h3>
           <ul class="benefit-list">
             <li>FAFSA = Free Application for Federal Student Aid</li>
             <li>Opens <strong>October 1</strong> of senior year — submit immediately</li>
@@ -1563,7 +1552,7 @@ const collegeSteps = [
           <div class="tip" style="margin:0"><strong>You'll need:</strong> Your (and parents') Social Security numbers, federal tax returns, W-2s, bank statements, and investment records.</div>
         </div>
         <div class="info-card teal">
-          <h3>✅ Pre-Submission Checklist</h3>
+          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Pre-Submission Checklist</h3>
           <ul class="coll-checklist">
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Personal statement — revised &amp; proofread</strong><span>Read aloud. 2+ people have reviewed it.</span></div></li>
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Activities list complete</strong><span>Ordered by importance. Hours/week and weeks/year filled in.</span></div></li>
@@ -1584,12 +1573,12 @@ const collegeSteps = [
       </div>
       ${exampleBox('<em>Add a local example here — a past student\'s timeline from application to acceptance, including what made their application stand out and what advice they\'d share with students just starting this process.</em>')}
       <div class="celebrate">
-        <span class="celebrate-icon">🎓</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg></span>
         <h2>Applications submitted!</h2>
         <p>You've done the work. Now breathe. The student who gets in isn't always the most polished — it's the one who showed up as their truest, most prepared self. That's you.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadCollegePDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadCollegeDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadCollegePDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadCollegeDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
         </div>
       </div>
       <div class="nav-buttons">
@@ -1620,7 +1609,7 @@ const sterlingSteps = [
         <p class="step-desc">Utah's premier high school excellence award. Students compete in one of 15 subject categories by demonstrating mastery, leadership, and community service through a portfolio binder and live interview.</p>
       </div>
       <div class="module-intro">
-        <span class="module-intro-icon">🏆</span>
+        <span class="module-intro-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M7 4H17V13a5 5 0 0 1-10 0V4z"/><path d="M7 9H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4"/><path d="M17 9h4a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-4"/></svg></span>
         <h3>Sterling Scholar — The Big Picture</h3>
         <ul class="benefit-list">
           <li><strong>15 SEDC categories</strong> — compete in the one where you have the most depth and passion</li>
@@ -1630,9 +1619,9 @@ const sterlingSteps = [
           <li><strong>Levels:</strong> School → District → State recognition + scholarship opportunities</li>
           <li><strong>Who nominates you:</strong> A teacher in your category subject area</li>
         </ul>
-        <div class="tip teal" style="margin-bottom:0"><strong>⚠️ Important rule for ALL categories:</strong> Interview exhibits must be carried by the nominee in one trip, without help. No carts or similar devices allowed.</div>
+        <div class="tip teal" style="margin-bottom:0"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Important rule for ALL categories:</strong> Interview exhibits must be carried by the nominee in one trip, without help. No carts or similar devices allowed.</div>
       </div>
-      <div class="tip"><strong>💡 Pro tip:</strong> Your CareerLaunch resume goes directly into the portfolio binder. Start building it now — every section you complete is one less thing to do later.</div>
+      <div class="tip"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Pro tip:</strong> Your CareerLaunch resume goes directly into the portfolio binder. Start building it now — every section you complete is one less thing to do later.</div>
       ${exampleBox('<em>Add a local success story here — a past Sterling Scholar from your school, what category they competed in, what their portfolio looked like, and what advice they\'d give. Real stories are the most motivating.</em>')}
       ${navButtons('showHub()', 'nextStep()')}`;
   },
@@ -1645,7 +1634,7 @@ const sterlingSteps = [
         <h1 class="step-title">Choose Your Category</h1>
         <p class="step-desc">There are 15 official SEDC categories. You can only compete in one. Choose where you have the most depth, achievement, and genuine passion — not just your favorite class.</p>
       </div>
-      <div class="tip teal"><strong>💡 How to choose:</strong> Pick the category where you have the most evidence — awards, projects, certifications, competitions, and hours spent. Passion + proof = strong portfolio.</div>
+      <div class="tip teal"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> How to choose:</strong> Pick the category where you have the most evidence — awards, projects, certifications, competitions, and hours spent. Passion + proof = strong portfolio.</div>
       <div class="sterling-cats">
         ${SS_CATEGORIES.map(cat => `
           <div class="scat"
@@ -1673,7 +1662,7 @@ const sterlingSteps = [
       ${cat ? `<div class="tip" style="background:#f5edfb;border-left-color:#8b4db8"><strong>Your category: ${cat.emoji} ${cat.name}</strong><br><small style="color:var(--muted)">${cat.evidence}</small>${cat.special ? `<br><small style="color:var(--rust)">${cat.special}</small>` : ''}</div>` : '<div class="tip teal">Complete Step 1 to see category-specific requirements.</div>'}
       <div class="two-col-info">
         <div class="info-card gold">
-          <h3>📁 Required Portfolio Sections</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg></span> Required Portfolio Sections</h3>
           <ul class="coll-checklist">
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Personal Statement / Narrative Essay</strong><span>1–2 pages on your passion, journey, and future goals in this category</span></div></li>
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Academic Record</strong><span>Official transcript, GPA, AP/honors/dual enrollment courses</span></div></li>
@@ -1686,7 +1675,7 @@ const sterlingSteps = [
           </ul>
         </div>
         <div class="info-card teal">
-          <h3>📋 Presentation Tips</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Presentation Tips</h3>
           <ul class="benefit-list">
             <li>Use <strong>tabbed dividers</strong> — one section per item above</li>
             <li>Place your <strong>personal statement first</strong> — it frames everything</li>
@@ -1727,7 +1716,7 @@ const sterlingSteps = [
                   oninput="sterlingState.essayDraft = this.value"
                   placeholder="Start with a specific moment — where were you, what were you doing, what changed?&#10;&#10;Example opening: 'The first time I welded a clean bead on my own, I knew this was more than a class. It was a calling.'&#10;&#10;Then move to: your achievements, your service, and where this passion takes you next.">${sterlingState.essayDraft}</textarea>
       </div>
-      <div class="tip"><strong>💡 Common mistake:</strong> Writing a general summary of your achievements instead of a personal story. Judges can see your achievements in the rest of the binder. The essay is where they get to know <em>you</em>.</div>
+      <div class="tip"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Common mistake:</strong> Writing a general summary of your achievements instead of a personal story. Judges can see your achievements in the rest of the binder. The essay is where they get to know <em>you</em>.</div>
       ${exampleBox('<em>Add annotated essay excerpts from past Sterling Scholars (with permission). Show what a strong opening line looks like vs. a generic one, and how a specific moment creates more impact than a list of accomplishments.</em>')}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
@@ -1743,7 +1732,7 @@ const sterlingSteps = [
       </div>
       <div class="two-col-info">
         <div class="info-card sage">
-          <h3>🤝 What Judges Want to See</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span> What Judges Want to See</h3>
           <ul class="benefit-list">
             <li><strong>Service connected to your category</strong> — a Science scholar doing STEM outreach is compelling</li>
             <li><strong>Sustained commitment</strong> over time, not a one-day event</li>
@@ -1754,7 +1743,7 @@ const sterlingSteps = [
           <div class="tip sage" style="margin:0"><strong>Service ideas by category:</strong> Tutor in your subject · Run a workshop · Volunteer at a relevant organization · Start a club that serves the community</div>
         </div>
         <div class="info-card navy">
-          <h3>📋 Log Format Requirements</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Log Format Requirements</h3>
           <ul class="benefit-list">
             <li><strong>Organization name</strong> — full official name</li>
             <li><strong>Dates</strong> — specific date ranges, not just year</li>
@@ -1788,7 +1777,7 @@ const sterlingSteps = [
       ${cat ? `<div class="tip" style="background:#f5edfb;border-left-color:#8b4db8"><strong>Preparing for: ${cat.emoji} ${cat.name}</strong>${cat.special ? `<br><span style="color:var(--rust);font-size:.82rem">${cat.special}</span>` : ''}</div>` : ''}
       <div class="two-col-info">
         <div class="info-card teal">
-          <h3>🗣️ Interview Prep — Step by Step</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Interview Prep — Step by Step</h3>
           <div class="step-flow">
             <div class="sf"><div class="sf-num">1</div><div><h4>Know Your Portfolio Cold</h4><p>Be ready to speak to every page — why you included it, what it means, what you learned from it. Judges may point to any item and ask.</p></div></div>
             <div class="sf"><div class="sf-num">2</div><div><h4>Prepare Your "Why" Story</h4><p>Why this category? What moment sparked your passion? Authentic beats rehearsed every time — judges can tell the difference.</p></div></div>
@@ -1798,7 +1787,7 @@ const sterlingSteps = [
           </div>
         </div>
         <div class="info-card navy">
-          <h3>📋 Questions to Practice</h3>
+          <h3><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Questions to Practice</h3>
           <ul class="benefit-list">
             <li>"Tell me about yourself and your passion for [category]."</li>
             <li>"What is the most significant achievement in your portfolio?"</li>
@@ -1808,7 +1797,7 @@ const sterlingSteps = [
             <li>"What did you learn from your biggest setback or failure?"</li>
             <li>"Why should you be named the Sterling Scholar in [category]?"</li>
           </ul>
-          <div class="tip" style="margin:0"><strong>💡 Answer structure:</strong> Specific story → What you did → What you learned. Short, concrete, honest answers beat long, vague ones every time.</div>
+          <div class="tip" style="margin:0"><strong><span class="tip-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Answer structure:</strong> Specific story → What you did → What you learned. Short, concrete, honest answers beat long, vague ones every time.</div>
         </div>
       </div>
       ${exampleBox('<em>Add mock interview video clips or annotated transcripts from past Sterling Scholars here. Show what a strong answer sounds like vs. a vague one, and how to stay composed when a question is unexpected.</em>')}
@@ -1825,7 +1814,7 @@ const sterlingSteps = [
       </div>
       <div class="two-col-info">
         <div class="info-card gold">
-          <h3>✅ Portfolio Binder Checklist</h3>
+          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Portfolio Binder Checklist</h3>
           <ul class="coll-checklist">
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Nominated by a teacher in your category</strong><span>Talk to your strongest teacher in that subject early — don't wait.</span></div></li>
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Binder is organized with tabbed dividers</strong><span>Professional appearance — clean layout, no loose papers.</span></div></li>
@@ -1839,7 +1828,7 @@ const sterlingSteps = [
           </ul>
         </div>
         <div class="info-card teal">
-          <h3>✅ Interview Day Checklist</h3>
+          <h3><span class="inline-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></span> Interview Day Checklist</h3>
           <ul class="coll-checklist">
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Mock interview done at least twice</strong><span>With a teacher, counselor, or parent. Record yourself once.</span></div></li>
             <li><span class="ck-icon">✓</span><div class="ck-text"><strong>Know your portfolio cold</strong><span>Ready to speak to any page, project, or award in the binder.</span></div></li>
@@ -1858,12 +1847,12 @@ const sterlingSteps = [
       </div>
       ${exampleBox('<em>Add a photo of a completed, well-organized binder from a past student (with permission). Show what category-specific work samples look like and what level of effort the judges expect.</em>')}
       <div class="celebrate">
-        <span class="celebrate-icon">🏆</span>
+        <span class="celebrate-icon" style="color:var(--tool-color)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M7 4H17V13a5 5 0 0 1-10 0V4z"/><path d="M7 9H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4"/><path d="M17 9h4a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-4"/></svg></span>
         <h2>Your portfolio is ready!</h2>
         <p>You've built the case for why you deserve this honor. Walk into that interview with confidence — you've done the work. Now go show them who you are.</p>
         <div class="download-group">
-          <button class="download-btn pdf"  onclick="downloadSterlingPDF()">📋 Download PDF</button>
-          <button class="download-btn docx" onclick="downloadSterlingDOCX()">📄 Download .docx</button>
+          <button class="download-btn pdf"  onclick="downloadSterlingPDF()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Download PDF</button>
+          <button class="download-btn docx" onclick="downloadSterlingDOCX()"><span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Download .docx</button>
         </div>
       </div>
       <div class="nav-buttons">
