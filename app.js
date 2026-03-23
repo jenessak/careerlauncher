@@ -27,9 +27,7 @@ const portfolioState = {
 };
 
 const clState = {
-  senderName: '', senderAddress: '', senderCity: '', senderPhone: '', senderEmail: '',
-  employerName: '', employerTitle: '', company: '', employerAddress: '', employerCity: '',
-  position: '', jobDesc: '', salutation: '',
+  company: '', position: '', jobDesc: '',
   opening: '', body1: '', body2: '', closing: '',
 };
 
@@ -137,8 +135,7 @@ function fieldGrid(selected, onSelectFn) {
 function exampleBox(content) {
   return `<div class="example-section">
     <div class="example-section-header">
-      <span>📌 Examples</span>
-      // <span class="example-badge">Add yours later</span>
+      <span>📌 Example</span>
     </div>
     <div class="example-placeholder">${content}</div>
   </div>`;
@@ -954,7 +951,6 @@ const portfolioSteps = [
 ══════════════════════════════════════════════════════ */
 const clSteps = [
 
-  /* 0 — Intro */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
@@ -973,197 +969,122 @@ const clSteps = [
         </ul>
       </div>
       <div class="tip">
-        <strong>Format matters</strong>
-        A professional cover letter follows formal business letter format — your contact info, the date, the employer's address, a proper salutation, 3–4 focused paragraphs, and a formal closing. We'll build each piece step by step and produce a polished, ready-to-send letter.
+        <strong>🚫 Avoid Generic Templates</strong>
+        "I am writing to express my interest in this position" — every hiring manager has read this 500 times. We'll help you write something real.
       </div>
       ${navButtons('showHub()', 'nextStep()', 'Start Writing →')}`;
   },
 
-  /* 1 — Your Info */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 1 · Cover Letter</div>
-        <h1 class="step-title">Your Contact Information</h1>
-        <p class="step-desc">This appears at the top of your letter — your name, address, phone, and email.</p>
+        <h1 class="step-title">Job Information</h1>
+        <p class="step-desc">Enter details about the specific job you're applying for. The more specific, the stronger your letter.</p>
       </div>
-      <div class="form-group">
-        <label class="fl">Full Name</label>
-        <input type="text" value="${clState.senderName}" placeholder="Jane Smith"
-               oninput="clState.senderName = this.value">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="fl">Street Address</label>
-          <input type="text" value="${clState.senderAddress}" placeholder="123 Main Street"
-                 oninput="clState.senderAddress = this.value">
-        </div>
-        <div class="form-group">
-          <label class="fl">City, State Zip</label>
-          <input type="text" value="${clState.senderCity}" placeholder="Cedar City, UT 84720"
-                 oninput="clState.senderCity = this.value">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="fl">Phone Number</label>
-          <input type="text" value="${clState.senderPhone}" placeholder="(435) 555-0100"
-                 oninput="clState.senderPhone = this.value">
-        </div>
-        <div class="form-group">
-          <label class="fl">Email Address</label>
-          <input type="text" value="${clState.senderEmail}" placeholder="jane.smith@email.com"
-                 oninput="clState.senderEmail = this.value">
-        </div>
-      </div>
-      <div class="tip sage">
-        <strong>Use a professional email</strong>
-        jane.smith@gmail.com ✓ &nbsp;&nbsp; jsmith99queen@hotmail.com ✗
-      </div>
-      ${navButtons('goBack()', 'nextStep()')}`;
-  },
-
-  /* 2 — Employer Info */
-  function (c) {
-    c.innerHTML = `
-      <div class="step-header">
-        <div class="step-eyebrow">Step 2 · Cover Letter</div>
-        <h1 class="step-title">Job & Employer Details</h1>
-        <p class="step-desc">This goes below the date. Try to find a real person's name — "Dear Hiring Manager" is a last resort.</p>
+      <div class="tip">
+        <strong>🔑 Keyword Tip</strong>
+        Paste the job description below and look for key skills and phrases. Use those exact words in your cover letter — it helps with ATS and shows you read the posting.
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="fl">Company Name</label>
-          <input type="text" value="${clState.company}" placeholder="BrightCo"
+          <input type="text" value="${clState.company}" placeholder="BrightCo, City Hospital…"
                  oninput="clState.company = this.value">
         </div>
         <div class="form-group">
-          <label class="fl">Position You're Applying For</label>
-          <input type="text" value="${clState.position}" placeholder="Marketing Intern"
+          <label class="fl">Position Title</label>
+          <input type="text" value="${clState.position}" placeholder="Marketing Intern, Patient Care Aide…"
                  oninput="clState.position = this.value">
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="fl">Hiring Manager / Recruiter Name</label>
-          <input type="text" value="${clState.employerName}" placeholder="Alex Johnson"
-                 oninput="clState.employerName = this.value">
-        </div>
-        <div class="form-group">
-          <label class="fl">Their Title (optional)</label>
-          <input type="text" value="${clState.employerTitle}" placeholder="Hiring Manager"
-                 oninput="clState.employerTitle = this.value">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="fl">Company Street Address (optional)</label>
-          <input type="text" value="${clState.employerAddress}" placeholder="456 Business Ave"
-                 oninput="clState.employerAddress = this.value">
-        </div>
-        <div class="form-group">
-          <label class="fl">Company City, State Zip (optional)</label>
-          <input type="text" value="${clState.employerCity}" placeholder="Salt Lake City, UT 84101"
-                 oninput="clState.employerCity = this.value">
-        </div>
-      </div>
       <div class="form-group">
-        <label class="fl">Salutation</label>
-        <input type="text" value="${clState.salutation}"
-               placeholder="Dear ${clState.employerName || 'Hiring Manager'}:"
-               oninput="clState.salutation = this.value">
-      </div>
-      <div class="form-group">
-        <label class="fl">Job Description / Key Requirements (optional — helps you use the right keywords)</label>
-        <textarea rows="4" oninput="clState.jobDesc = this.value"
+        <label class="fl">Job Description / Key Requirements</label>
+        <textarea rows="5" oninput="clState.jobDesc = this.value"
                   placeholder="Paste the job description here…">${clState.jobDesc}</textarea>
       </div>
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
-  /* 3 — Opening */
+  function (c) {
+    c.innerHTML = `
+      <div class="step-header">
+        <div class="step-eyebrow">Step 2 · Cover Letter</div>
+        <h1 class="step-title">Opening Paragraph</h1>
+        <p class="step-desc">Hook them immediately. State the role, show genuine excitement, and connect it to your field.</p>
+      </div>
+      <div class="tip">
+        <strong>📋 Opening Formula</strong>
+        State the position + Show excitement + Connect to your passion<br>
+        <em>Example: "I'm excited to apply for the Marketing Intern role at ${clState.company || '[Company]'} because I'm passionate about digital strategy and brand storytelling."</em>
+      </div>
+      <div class="form-group">
+        <label class="fl">Your Opening Paragraph</label>
+        <textarea rows="5" oninput="clState.opening = this.value"
+                  placeholder="I'm thrilled to apply for the ${clState.position || '[Position]'} at ${clState.company || '[Company]'} because…">${clState.opening}</textarea>
+      </div>
+      ${exampleBox(`<strong>Marketing:</strong> "I'm excited to apply for the Marketing Intern position at BrightCo because I'm passionate about branding and have been following your campaigns for the past year."<br><br>
+        <strong>Healthcare:</strong> "I'm honored to apply for the Patient Care Aide role at City Hospital because supporting patients is more than a job to me — it's a calling."<br>
+        <em>Add field-specific opening examples here.</em>`)}
+      ${navButtons('goBack()', 'nextStep()')}`;
+  },
+
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 3 · Cover Letter</div>
-        <h1 class="step-title">Opening Paragraph</h1>
-        <p class="step-desc">State where you found the role, show genuine enthusiasm, and connect to the company specifically.</p>
+        <h1 class="step-title">Body Paragraphs</h1>
+        <p class="step-desc">This is where you prove you're the right person. Use real examples, not vague claims.</p>
       </div>
       <div class="tip">
-        <strong>Opening Formula</strong>
-        How you found it + Genuine excitement + Why this company specifically<br>
-        <em>"I was thrilled to learn of your [Position] on [Source]. As someone passionate about [Field], I appreciate [specific thing about company] and am confident my [skills] will allow me to contribute."</em>
+        <strong>📋 Body Structure</strong>
+        Para 1: Relevant experience + one specific measurable example<br>
+        Para 2: Soft skills + how you'd contribute to their team
       </div>
       <div class="form-group">
-        <label class="fl">Opening Paragraph</label>
-        <textarea rows="6" oninput="clState.opening = this.value"
-                  placeholder="I was thrilled to learn of the ${clState.position || '[Position]'} opportunity at ${clState.company || '[Company]'}…">${clState.opening}</textarea>
+        <label class="fl">Paragraph 1 — Relevant Experience</label>
+        <textarea rows="4" oninput="clState.body1 = this.value"
+                  placeholder="Tell a short story. Include one measurable example — numbers, outcomes, or impact…">${clState.body1}</textarea>
       </div>
-      ${exampleBox(FIELD_EXAMPLES_COVER_OPENING[resumeState.field] || FIELD_EXAMPLES_COVER_OPENING.general)}
+      <div class="form-group">
+        <label class="fl">Paragraph 2 — Soft Skills & Strengths</label>
+        <textarea rows="4" oninput="clState.body2 = this.value"
+                  placeholder="Describe how you work — your communication style, teamwork, adaptability — and connect it to this role…">${clState.body2}</textarea>
+      </div>
+      ${exampleBox(`<strong>Experience paragraph:</strong> "During my junior year, I led a three-person team to design and execute a social media campaign for our school's fundraiser. We grew the event's Instagram following by 60% in three weeks and exceeded our fundraising goal by $1,200."<br><br>
+        <em>Add field-specific body paragraph examples here for each career area.</em>`)}
       ${navButtons('goBack()', 'nextStep()')}`;
   },
 
-  /* 4 — Body */
   function (c) {
     c.innerHTML = `
       <div class="step-header">
         <div class="step-eyebrow">Step 4 · Cover Letter</div>
-        <h1 class="step-title">Body Paragraphs</h1>
-        <p class="step-desc">Connect your experience to their needs. Expand on your resume — don't just repeat it.</p>
+        <h1 class="step-title">Closing & Final Check</h1>
+        <p class="step-desc">End with confidence. Reaffirm your interest, thank them, and invite next steps.</p>
       </div>
       <div class="tip">
-        <strong>Body Structure</strong>
-        Para 1: Specific experience or project with a measurable outcome<br>
-        Para 2: Personal qualities, passion, and why you're motivated by this specific company
+        <strong>📋 Closing Formula</strong>
+        Reaffirm interest + Express appreciation + State availability
       </div>
       <div class="form-group">
-        <label class="fl">Paragraph 1 — Relevant Experience & Results</label>
-        <textarea rows="5" oninput="clState.body1 = this.value"
-                  placeholder="Tell a short story with one specific, measurable example — numbers, outcomes, or impact…">${clState.body1}</textarea>
-      </div>
-      <div class="form-group">
-        <label class="fl">Paragraph 2 — Passion, Strengths & Fit</label>
-        <textarea rows="5" oninput="clState.body2 = this.value"
-                  placeholder="Convince them you have the personal qualities and motivation to succeed at this specific company…">${clState.body2}</textarea>
-      </div>
-      ${exampleBox(FIELD_EXAMPLES.coverLetterBody[resumeState.field] || FIELD_EXAMPLES.coverLetterBody.general)}
-      ${navButtons('goBack()', 'nextStep()')}`;
-  },
-
-  /* 5 — Closing */
-  function (c) {
-    const chk = '<span class="ats-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>';
-    c.innerHTML = `
-      <div class="step-header">
-        <div class="step-eyebrow">Step 5 · Cover Letter</div>
-        <h1 class="step-title">Closing Paragraph</h1>
-        <p class="step-desc">Restate your interest, reference your resume, request an interview, and thank them.</p>
-      </div>
-      <div class="tip">
-        <strong>Closing Formula</strong>
-        Reference attached resume + Request an interview + Thank them for their time
-      </div>
-      <div class="form-group">
-        <label class="fl">Closing Paragraph</label>
+        <label class="fl">Your Closing Paragraph</label>
         <textarea rows="4" oninput="clState.closing = this.value"
-                  placeholder="Please find my resume attached, which details my qualifications. I would welcome the opportunity to discuss how my experience aligns with your needs. Thank you for your time and consideration…">${clState.closing}</textarea>
+                  placeholder="I would love the opportunity to contribute to your team and discuss how my skills align with your needs. Thank you for your time and consideration…">${clState.closing}</textarea>
       </div>
-      <div class="tip sage" style="margin-top:1rem">
-        <strong>Final Checklist</strong>
-        <ul class="ats-list" style="margin-top:.6rem">
-          <li>${chk} Addressed to a specific person if possible</li>
-          <li>${chk} Every paragraph connects to this specific job</li>
-          <li>${chk} No generic filler phrases</li>
-          <li>${chk} Resume is actually attached when you send it</li>
-          <li>${chk} One page when printed</li>
-          <li>${chk} Proofread at least twice</li>
-        </ul>
-      </div>
-      ${exampleBox(FIELD_EXAMPLES.coverLetterClosing[resumeState.field] || FIELD_EXAMPLES.coverLetterClosing.general)}
+      <div class="tip navy"><strong>✅ Final Checklist</strong></div>
+      <ul class="ats-list">
+        <li><span class="ats-check">✓</span> One page maximum</li>
+        <li><span class="ats-check">✓</span> Addressed to a specific person if possible</li>
+        <li><span class="ats-check">✓</span> No generic phrases — every sentence is specific to this job</li>
+        <li><span class="ats-check">✓</span> Proofread at least twice</li>
+      </ul>
+      ${exampleBox(`<strong>Strong close:</strong> "I would welcome the opportunity to bring my design skills and enthusiasm to your team. Thank you for your time — I'd love to discuss how I can contribute. I'm available for an interview at your convenience."<br>
+        <em>Add field-specific closing examples including variations for internships and part-time roles here.</em>`)}
       <div class="celebrate">
         <span class="celebrate-icon">✉️</span>
         <h2>Cover letter complete!</h2>
-        <p>Download your finished letter — formatted as a professional business letter ready to send.</p>
+        <p>Copy your paragraphs into a clean document and pair it with your resume. You're ready to apply.</p>
         <div class="download-group">
           <button class="download-btn pdf"  onclick="downloadCoverLetterPDF()">📋 Download PDF</button>
           <button class="download-btn docx" onclick="downloadCoverLetterDOCX()">📄 Download .docx</button>
@@ -1175,6 +1096,7 @@ const clSteps = [
       </div>`;
   },
 ];
+
 /* ══════════════════════════════════════════════════════
    INTERVIEW PREP STEPS
 ══════════════════════════════════════════════════════ */
